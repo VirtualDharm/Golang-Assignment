@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
-	// "net/http"
+	"net/http"
+	"encoding/json"
 	"server/task_microservice"
 	"server/user_microservice"
 	"time"
 	"bufio"
 	"os"
 	"strings"
+	"github.com/rs/cors"
 )
 
 // func handleRequests(w http.ResponseWriter, r *http.Request) {
@@ -19,6 +21,43 @@ import (
 //     fmt.Fprintf(w, "Hello, this is your microservices server!")
 // }
 
+// Define a struct to hold the main application state
+type App struct {
+	UserMicroservice *user_microservice.UserMicroservice
+	TaskMicroservice *task_microservice.TaskMicroservice
+	AdminUser        user_microservice.User
+}
+// Initialize the App
+func NewApp() *App {
+	return &App{
+		UserMicroservice: user_microservice.NewUserMicroservice(),
+		TaskMicroservice: task_microservice.NewTaskMicroservice(),
+		AdminUser: user_microservice.User{
+			Username: "admin_user",
+			Email:    "admin@example.com",
+			Type:     user_microservice.AdminUser,
+		},
+	}
+}
+// Define an HTTP handler function for adding a user
+func (app *App) AddUserHandler(w http.ResponseWriter, r *http.Request) {
+	// Extract user details from the request body (assuming JSON payload)
+	var newUser user_microservice.User
+	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
+		http.Error(w, fmt.Sprintf("Error decoding request body: %v", err), http.StatusBadRequest)
+		return
+	}
+
+	// Add the user using the user microservice
+	err := app.UserMicroservice.AddUser(app.AdminUser, newUser.Username, newUser.Email, newUser.Type)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error adding user: %v", err), http.StatusInternalServerError)
+		return
+	}
+
+	// Respond with success
+	w.WriteHeader(http.StatusCreated)
+}
 // Function to add a user
 func addUser(userMicroservice *user_microservice.UserMicroservice, adminUser user_microservice.User) {
 	fmt.Println("Enter user details:")
@@ -231,8 +270,7 @@ func markTaskAsComplete(taskMicroservice *task_microservice.TaskMicroservice, ad
 	var taskTitleToComplete string
 	taskTitleToComplete, _ = reader.ReadString('\n')
 	taskTitleToComplete = strings.TrimSpace(taskTitleToComplete)
-	var err error
-	err = taskMicroservice.MarkTaskAsComplete(adminUser, taskTitleToComplete)
+	var err error= taskMicroservice.MarkTaskAsComplete(adminUser, taskTitleToComplete)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
@@ -253,6 +291,18 @@ func getAllUsers(userMicroservice *user_microservice.UserMicroservice, adminUser
 
 
 func main() {
+	// Create an instance of the App
+	app := NewApp()
+	// Set up CORS middleware
+	c := cors.Default()
+	// Set up HTTP routes with CORS middleware
+	http.Handle("/addUser", c.Handler(http.HandlerFunc(app.AddUserHandler)))
+	// ... Define additional routes for other actions ...
+	// Start the HTTP server on port 8080
+	fmt.Println("Server listening on :8080...")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		fmt.Println(err)
+	}
 	// User Microservice
 	adminUser := user_microservice.User{
 		Username: "admin_user",
