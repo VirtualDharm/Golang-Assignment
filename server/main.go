@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	// "net/http"
 	"server/task_microservice"
 	"server/user_microservice"
 	"time"
@@ -11,13 +11,13 @@ import (
 	"strings"
 )
 
-func handleRequests(w http.ResponseWriter, r *http.Request) {
-    // Print the message to the console
-    fmt.Println("Request received from:", r.RemoteAddr)
+// func handleRequests(w http.ResponseWriter, r *http.Request) {
+//     // Print the message to the console
+//     fmt.Println("Request received from:", r.RemoteAddr)
 
-    // Write the message to the response writer
-    fmt.Fprintf(w, "Hello, this is your microservices server!")
-}
+//     // Write the message to the response writer
+//     fmt.Fprintf(w, "Hello, this is your microservices server!")
+// }
 
 // Define printUserInfo outside of the main function
 func printUserInfo(user user_microservice.User) {
@@ -38,72 +38,69 @@ func main() {
 	taskMicroservice := task_microservice.NewTaskMicroservice()
 
 	// Example: Adding users
-	err := userMicroservice.AddUser(adminUser, "john_doe", "john@example.com", user_microservice.DefaultUser)
-	err1 := userMicroservice.AddUser(adminUser, "john_doe1", "john1@example.com", user_microservice.DefaultUser)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	err2 := userMicroservice.AddUser(adminUser, "john_doe2", "john2@example.com", user_microservice.AdminUser)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	err3 := userMicroservice.AddUser(adminUser, "john_doe3", "john3@example.com", user_microservice.AdminUser)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	if err1 != nil {
-		fmt.Println("Error:", err1)
-	}
-	if err2 != nil {
-		fmt.Println("Error:", err2)
-	}
-	if err3 != nil {
-		fmt.Println("Error:", err3)
-	}
+	// err := userMicroservice.AddUser(adminUser, "john_doe", "john@example.com", user_microservice.DefaultUser)
+	// err1 := userMicroservice.AddUser(adminUser, "john_doe1", "john1@example.com", user_microservice.DefaultUser)
+	// err2 := userMicroservice.AddUser(adminUser, "john_doe2", "john2@example.com", user_microservice.AdminUser)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// }
+	// err3 := userMicroservice.AddUser(adminUser, "john_doe3", "john3@example.com", user_microservice.AdminUser)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// }
+	// if err1 != nil {
+	// 	fmt.Println("Error:", err1)
+	// }
+	// if err2 != nil {
+	// 	fmt.Println("Error:", err2)
+	// }
+	// if err3 != nil {
+	// 	fmt.Println("Error:", err3)
+	// }
 
 	// Example: Deleting a user
-	err = userMicroservice.DeleteUser(adminUser, "john_doe")
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	err2 = userMicroservice.DeleteUser(adminUser, "john_doe3")
-	if err2 != nil {
-		fmt.Println("Error:", err2)
-	}
+	// err = userMicroservice.DeleteUser(adminUser, "john_doe")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// }
+	// err2 = userMicroservice.DeleteUser(adminUser, "john_doe3")
+	// if err2 != nil {
+	// 	fmt.Println("Error:", err2)
+	// }
 
 	// Example: Fetching user information
-	user, err := userMicroservice.GetUser(adminUser, "john_doe1")
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("User found:", *user)
-	}
-	user1, err1 := userMicroservice.GetUser(adminUser, "john_doe2")
-	if err1 != nil {
-		fmt.Println("Error:", err1)
-	} else {
-		fmt.Println("User found:", *user1)
-	}
+	// user, err := userMicroservice.GetUser(adminUser, "john_doe1")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// } else {
+	// 	fmt.Println("User found:", *user)
+	// }
+	// user1, err1 := userMicroservice.GetUser(adminUser, "john_doe2")
+	// if err1 != nil {
+	// 	fmt.Println("Error:", err1)
+	// } else {
+	// 	fmt.Println("User found:", *user1)
+	// }
 
 	// Add the task with both adminUser and assignedUser
-	assignedUser, err := userMicroservice.GetUser(adminUser, "john_doe1")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	err = taskMicroservice.AddTask(adminUser, *assignedUser, "Task 1", "Description 1", task_microservice.MediumPriority, time.Now().AddDate(0, 0, 7))
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	assignedUser1, err := userMicroservice.GetUser(adminUser, "john_doe2")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	err = taskMicroservice.AddTask(adminUser, *assignedUser1, "Task 2", "Description 2", task_microservice.MediumPriority, time.Now().AddDate(0, 0, 8))
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
+	// assignedUser, err := userMicroservice.GetUser(adminUser, "john_doe1")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
+	// err = taskMicroservice.AddTask(adminUser, *assignedUser, "Task 1", "Description 1", task_microservice.MediumPriority, time.Now().AddDate(0, 0, 7))
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// }
+	// assignedUser1, err := userMicroservice.GetUser(adminUser, "john_doe2")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
+	// err = taskMicroservice.AddTask(adminUser, *assignedUser1, "Task 2", "Description 2", task_microservice.MediumPriority, time.Now().AddDate(0, 0, 8))
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// }
 
 	// Example: Editing a task
 	// updatedTask := task_microservice.Task{
@@ -118,58 +115,58 @@ func main() {
 	// }
 
 	// Example: Fetching a specific task
-	taskTitle := "Task 1 Changed"
-	fetchedTask, err := taskMicroservice.GetTask(adminUser, taskTitle)
-	if err != nil {
-		fmt.Println("Error fetching task:", err)
-	} else {
-		fmt.Println("Fetched Task:", *fetchedTask)
-	}
+	// taskTitle := "Task 1 Changed"
+	// fetchedTask, err := taskMicroservice.GetTask(adminUser, taskTitle)
+	// if err != nil {
+	// 	fmt.Println("Error fetching task:", err)
+	// } else {
+	// 	fmt.Println("Fetched Task:", *fetchedTask)
+	// }
 
 	// Example: Fetching all tasks
-	allTasks := taskMicroservice.GetAllTasks()
-	fmt.Println("All Tasks:", allTasks)
+	// allTasks := taskMicroservice.GetAllTasks()
+	// fmt.Println("All Tasks:", allTasks)
 
 	// Example: Searching tasks by priority
-	searchPriority := task_microservice.MediumPriority
-	mediumPriorityTasks, err := taskMicroservice.SearchTasksByPriority(adminUser, searchPriority)
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("\nTasks with Priority:", searchPriority)
-		for _, task := range mediumPriorityTasks {
-			fmt.Printf("Title: %s, Assigned To: %s\n", task.Title, task.User.Username)
-		}
-	}
+	// searchPriority := task_microservice.MediumPriority
+	// mediumPriorityTasks, err := taskMicroservice.SearchTasksByPriority(adminUser, searchPriority)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// } else {
+	// 	fmt.Println("\nTasks with Priority:", searchPriority)
+	// 	for _, task := range mediumPriorityTasks {
+	// 		fmt.Printf("Title: %s, Assigned To: %s\n", task.Title, task.User.Username)
+	// 	}
+	// }
 
 	// Example: Sorting tasks by due date
-	sortedTasks, err := taskMicroservice.SortTasksByDueDate(adminUser)
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("Tasks sorted by due date:")
-		for _, task := range sortedTasks {
-			fmt.Printf("Title: %s, Due Date: %s\n", task.Title, task.DueDate.Format("2006-01-02"))
-		}
-	}
+	// sortedTasks, err := taskMicroservice.SortTasksByDueDate(adminUser)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// } else {
+	// 	fmt.Println("Tasks sorted by due date:")
+	// 	for _, task := range sortedTasks {
+	// 		fmt.Printf("Title: %s, Due Date: %s\n", task.Title, task.DueDate.Format("2006-01-02"))
+	// 	}
+	// }
 
 	// Example: Marking a task as complete
-	taskTitleToComplete := "Task 2"
-	err = taskMicroservice.MarkTaskAsComplete(adminUser, taskTitleToComplete)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
+	// taskTitleToComplete := "Task 2"
+	// err = taskMicroservice.MarkTaskAsComplete(adminUser, taskTitleToComplete)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// }
 
 	// Set up HTTP routes
-    http.HandleFunc("/check", handleRequests)
+    // http.HandleFunc("/check", handleRequests)
 
 	// Start the HTTP server on port 8080
-    go func() {
-        fmt.Println("Server listening on :8080...")
-        if err := http.ListenAndServe(":8080", nil); err != nil {
-            fmt.Println(err)
-        }
-    }()
+    // go func() {
+    //     fmt.Println("Server listening on :8080...")
+    //     if err := http.ListenAndServe(":8080", nil); err != nil {
+    //         fmt.Println(err)
+    //     }
+    // }()
 
 
 	for {
@@ -391,6 +388,7 @@ func main() {
 			var taskTitleToComplete string
 			taskTitleToComplete, _ = reader.ReadString('\n')
 			taskTitleToComplete = strings.TrimSpace(taskTitleToComplete)
+			var err error
 			err = taskMicroservice.MarkTaskAsComplete(adminUser, taskTitleToComplete)
 			if err != nil {
 				fmt.Println("Error:", err)
